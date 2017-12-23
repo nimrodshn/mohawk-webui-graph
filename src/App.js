@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { LineChart, Button } from 'patternfly-react';
 
 const lineChartDataColumns = [
@@ -12,17 +12,22 @@ const lineChartConfigData = {
     columns: lineChartDataColumns
 };
 
-class App extends Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: ''};
+    this.state = {query_value: ''};
 
-    this.query = this.query.bind(this);
+    this.queryBackend = this.queryBackend.bind(this);
+    this.handleQueryTxt = this.handleQueryTxt.bind(this)
   }
 
+  handleQueryTxt(event){
+    this.setState({query_value: event.target.value})
+  }
 
-  query(event) {
-    console.log("Querying.." + this.state.value);
+  queryBackend(event) {
+    console.log("Querying.. " + this.state.query_value);
+    // TODO: Pass this.state.query_value to ajax call.
   }
 
   render() {
@@ -30,12 +35,12 @@ class App extends Component {
       <div className="App">
         <form name="queryForm" id="query-form">
           <div className="query">
-            <input id="query-text" value={this.state.value} />
+            <input id="query-text" onChange={this.handleQueryTxt} />
           </div>
           <div className="query">
             <Button
               id="input-button"
-              onClick={this.query}
+              onClick={this.queryBackend}
             >
               Execute
             </Button>
